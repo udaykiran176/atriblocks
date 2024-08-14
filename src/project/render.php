@@ -13,7 +13,8 @@ $circuit_diagram = isset($attributes['circuit_diagram']) ? $attributes['circuit_
 $circuit_diagrams = isset($attributes['circuit_diagrams']) ? $attributes['circuit_diagrams'] : [];
 $project_codes = isset($attributes['project_codes']) ? $attributes['project_codes'] : [];
 $steps_to_make = isset($attributes['steps_to_make']) ? $attributes['steps_to_make'] : [];
-
+$faqs = isset($attributes['faqs']) ? $attributes['faqs'] : [];
+$project_conclusion = isset($attributes['project_conclusion']) ? $attributes['project_conclusion'] : '';
 // Function to render table
 if (!function_exists('render_table')) {
 	function render_table($items, $headers)
@@ -49,7 +50,7 @@ if (!function_exists('render_table')) {
 $block_content = '';
 
 if (!empty($project_intro)) {
-	$block_content .= '<div class="detailsbox"><h2>Project Introduction</h2><p>' . wp_kses_post($project_intro) . '</p></div>';
+	$block_content .= '<div class="detailsbox"><h2>Introduction</h2><p>' . wp_kses_post($project_intro) . '</p></div>';
 }
 
 
@@ -110,6 +111,22 @@ if (is_user_logged_in()) {
 		}
 		$block_content .= '</div>';
 	}
+
+	if (!empty($project_conclusion)) {
+		$block_content .= '<div class="detailsbox"><h2>Conclusion</h2><p>' . wp_kses_post($project_conclusion) . '</p></div>';
+	}
+
+	if (!empty($faqs)) {
+		$block_content .= '<div class="detailsbox"><h2>FAQs</h2>';
+		foreach ($faqs as $faq) {
+			$block_content .= '<div><h3>' . esc_html($faq['question']) . '</h3><p>' . wp_kses_post($faq['answer']) . '</p></div>';
+		}
+		$block_content .= '</div>';
+	}
+	
+
+	
+	
 } else {
 	// Display login prompt for non-logged in users
 	$block_content .= '<div class="detailsbox">';
