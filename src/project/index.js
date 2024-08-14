@@ -52,7 +52,20 @@ registerBlockType( metadata.name, {
       default: [],
   },
     steps_to_make: { type: 'array', default: [] },
+
+    faqs: {
+      type: 'array',
+      default: [{ question: '', answer: '' }],
+  },
+
+  project_conclusion: {
+    type: 'string',
+    default: ''
 },
+  
+},
+
+
 
     
 	icon: calendarIcon,
