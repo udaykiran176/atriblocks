@@ -1,10 +1,12 @@
 import { useState } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
-import { TextControl, TextareaControl, Button } from '@wordpress/components';
+import { TextControl, Button } from '@wordpress/components';
 import { MediaUpload } from '@wordpress/block-editor';
-import { RichText } from '@wordpress/block-editor';
+import { RichText} from '@wordpress/block-editor';
 
 export default function Edit({ attributes, setAttributes }) {
+
+
     const blockProps = useBlockProps();
 
     const getYoutubeId = (url) => {
@@ -125,18 +127,21 @@ export default function Edit({ attributes, setAttributes }) {
 
     return (
         <div {...blockProps}>
-            <div>
-                <h2>Project Introduction</h2>
-                <RichText
-                    tagName="p"
-                    value={attributes.project_intro}
-                    onChange={(value) => setAttributes({ project_intro: value })}
-                    placeholder="Enter Project Introduction"
-                />
+            <div class="detailsbox">
+                <h2>Introduction</h2>
+            
+                    <RichText
+                        tagName="p"
+                        value={attributes.project_intro}
+                        onChange={(value) => setAttributes({ project_intro: value })}
+                        placeholder="Enter Project Introduction"
+                    />
             </div>
 
-            <div>
-            <h2>YouTube Video URL</h2>
+
+
+            <div class="detailsbox">
+          <h2>YouTube Video URL</h2>
             <TextControl
                 label="Enter YouTube Video URL"
                 value={attributes.youtubeUrl}
@@ -153,9 +158,9 @@ export default function Edit({ attributes, setAttributes }) {
                     style={{ marginTop: '10px' }}
                 ></iframe>
             )}
-        </div>
+            </div>
 
-            <div>
+            <div class="detailsbox">
                 <h2>Materials Required</h2>
                 <table>
                     <thead>
@@ -241,7 +246,7 @@ export default function Edit({ attributes, setAttributes }) {
                 </Button>
             </div>
 
-            <div>
+            <div class="detailsbox">
                 <h2>Tools Required</h2>
                 <table>
                     <thead>
@@ -314,7 +319,7 @@ export default function Edit({ attributes, setAttributes }) {
                 </Button>
             </div>
 
-            <div>
+            <div class="detailsbox">
                 <h2>Software Required</h2>
                 <table>
                     <thead>
@@ -387,7 +392,7 @@ export default function Edit({ attributes, setAttributes }) {
                 </Button>
             </div>
 
-            <div>
+            <div class="detailsbox">
     {attributes.circuit_diagrams.map((circuitDiagram, index) => (
         <div key={index}>
             <h3>Circuit Diagram {index + 1}</h3>
@@ -420,61 +425,124 @@ export default function Edit({ attributes, setAttributes }) {
     <Button isSecondary onClick={onAddCircuitDiagram} style={{ marginTop: '20px' }}>
         Add Circuit Diagram
     </Button>
-</div>
+            </div>
 
 
-<div>
-    {attributes.project_codes.map((projectCode, index) => (
-        <div key={index}>
-            <h3>Project Code {index + 1}</h3>
-            <TextControl
-                label="Subtitle"
-                value={projectCode.subtitle}
-                onChange={(subtitle) => onUpdateProjectCode(index, { subtitle })}
-            />
-            <textarea
-                style={{ height: '200px', width: '100%' }}
-                value={projectCode.code}
-                onChange={(e) => onUpdateProjectCode(index, { code: e.target.value })}
-            />
-            <Button isDestructive onClick={() => onRemoveProjectCode(index)} style={{ marginTop: '10px' }}>
-                Remove Project Code
-            </Button>
-        </div>
-    ))}
-    <Button isSecondary onClick={onAddProjectCode} style={{ marginTop: '20px' }}>
-        Add Project Code
-    </Button>
-</div>
+            <div class="detailsbox">
+                {attributes.project_codes.map((projectCode, index) => (
+                    <div key={index}>
+                        <h3>Project Code {index + 1}</h3>
+                        <TextControl
+                            label="Subtitle"
+                            value={projectCode.subtitle}
+                            onChange={(subtitle) => onUpdateProjectCode(index, { subtitle })}
+                        />
+                        <textarea
+                            style={{ height: '200px', width: '100%' }}
+                            value={projectCode.code}
+                            onChange={(e) => onUpdateProjectCode(index, { code: e.target.value })}
+                        />
+                        <Button isDestructive onClick={() => onRemoveProjectCode(index)} style={{ marginTop: '10px' }}>
+                            Remove Project Code
+                        </Button>
+                    </div>
+                ))}
+                <Button isSecondary onClick={onAddProjectCode} style={{ marginTop: '20px' }}>
+                    Add Project Code
+                </Button>
+            </div>
 
-<div>
-    <h2>Steps to Make</h2>
-    {attributes.steps_to_make.map((step, index) => (
-        <div key={index} style={{ marginBottom: '20px' }}>
-            <h3>Step {index + 1}</h3>
-            <RichText
-                tagName="p"
-                value={step}
-                onChange={(value) => {
-                    const newSteps = [...attributes.steps_to_make];
-                    newSteps[index] = value;
-                    setAttributes({ steps_to_make: newSteps });
-                }}
-                placeholder="Enter Step"
-            />
-            <Button isDestructive onClick={() => {
-                const newSteps = [...attributes.steps_to_make];
-                newSteps.splice(index, 1);
-                setAttributes({ steps_to_make: newSteps });
-            }}>
-                Remove Step
-            </Button>
-        </div>
-    ))}
-    <Button isPrimary onClick={() => setAttributes({ steps_to_make: [...attributes.steps_to_make, ''] })}>
-        Add Step
-    </Button>
-</div>
+            <div class="detailsbox">
+                <h2>Steps to Make</h2>
+                {attributes.steps_to_make.map((step, index) => (
+                    <div key={index} style={{ marginBottom: '20px' }}>
+                        <h3>Step {index + 1}</h3>
+                        <RichText
+                            tagName="p"
+                            value={step}
+                            onChange={(value) => {
+                                const newSteps = [...attributes.steps_to_make];
+                                newSteps[index] = value;
+                                setAttributes({ steps_to_make: newSteps });
+                            }}
+                            placeholder="Enter Step"
+                        />
+                        <Button isDestructive onClick={() => {
+                            const newSteps = [...attributes.steps_to_make];
+                            newSteps.splice(index, 1);
+                            setAttributes({ steps_to_make: newSteps });
+                        }}>
+                            Remove Step
+                        </Button>
+                    </div>
+                ))}
+                <Button isPrimary onClick={() => setAttributes({ steps_to_make: [...attributes.steps_to_make, ''] })}>
+                    Add Step
+                </Button>
+            </div>
+            
+            
+            <div className="detailsbox">
+                <h2>Conclusion</h2>
+                <RichText
+                    tagName="p"
+                    value={attributes.project_conclusion}
+                    onChange={(value) => setAttributes({ project_conclusion: value })}
+                    placeholder="Enter Project Conclusion"
+                />
+            </div>
+
+              <div className="detailsbox">
+                <h2>FAQ's</h2>
+                {attributes.faqs.map((faq, index) => (
+                    <div key={index} style={{ marginBottom: '20px' }}>
+                        <h3>Question {index + 1}</h3>
+                        <RichText
+                            tagName="p"
+                            value={faq.question}
+                            onChange={(value) => {
+                                const newFaqs = [...attributes.faqs];
+                                newFaqs[index].question = value;
+                                setAttributes({ faqs: newFaqs });
+                            }}
+                            placeholder="Enter Question"
+                        />
+                        <h3>Answer</h3>
+                        <RichText
+                            tagName="p"
+                            value={faq.answer}
+                            onChange={(value) => {
+                                const newFaqs = [...attributes.faqs];
+                                newFaqs[index].answer = value;
+                                setAttributes({ faqs: newFaqs });
+                            }}
+                            placeholder="Enter Answer"
+                        />
+                        <Button
+                            isDestructive
+                            onClick={() => {
+                                const newFaqs = [...attributes.faqs];
+                                newFaqs.splice(index, 1);
+                                setAttributes({ faqs: newFaqs });
+                            }}
+                        >
+                            Remove FAQ
+                        </Button>
+                    </div>
+                ))}
+                <Button
+                    isPrimary
+                    onClick={() =>
+                        setAttributes({ faqs: [...attributes.faqs, { question: '', answer: '' }] })
+                    }
+                >
+                    Add FAQ
+                </Button>
+            </div>       
+
+
+
+           
         </div>
     );
 }
